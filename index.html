@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SFCC Data Engineering Pipeline — Rajnish Jha</title>
+    <meta
+      property="og:title"
+      content="End-to-End Salesforce Commerce Cloud Data Engineering Pipeline"
+    />
+    <meta
+      property="og:description"
+      content="Production-grade SFCC data pipeline built using Azure Databricks, ADLS Gen2, and Bronze–Silver–Gold Lakehouse architecture."
+    />
+    <meta property="og:image" content="./assets/image/display-pic.png" />
+    <meta
+      property="og:url"
+      content="jha-rajnish.github.io/sfcc_data_databricks_pipeline_workflow/"
+    />
+    <meta property="og:type" content="Project" />
+
+    <!-- favicons -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      sizes="any"
+      href="./assets/icon/favicon.svg"
+    />
+    <link rel="apple-touch-icon" href="./assets/icon/favicon.png" />
+
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="./css/styles.css" />
+
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-M5S46396');
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-8JK0FN2KGV"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'G-8JK0FN2KGV');
+    </script>
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-M5S46396"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div class="grid-bg"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <main>
+      <section class="hero reveal">
+        <h1>Salesforce Commerce<br />Cloud <em>Data Pipeline</em></h1>
+        <p class="hero-desc">
+          Production-grade SFCC data pipeline built using Azure Databricks, ADLS
+          Gen2, and a Bronze–Silver–Gold Lakehouse architecture for
+          analytics-ready datasets at scale.
+        </p>
+        <div class="stat-chips">
+          <div class="chip"><span class="chip-val">3</span> API Domains</div>
+          <div class="chip">
+            <span class="chip-val">3</span> Lakehouse Tiers
+          </div>
+          <div class="chip">
+            <span class="chip-val">∞</span> Incremental Loads
+          </div>
+          <div class="chip">
+            <span class="chip-val">Azure</span> Cloud Native
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <div class="section-label">01 — Objective</div>
+        <div class="objective-card">
+          Design and implement a scalable, production-ready data engineering
+          pipeline that ingests Salesforce Commerce Cloud REST API data,
+          processes nested JSON structures, and delivers analytics-ready
+          datasets to a data warehouse using Azure Databricks and Lakehouse
+          architecture.
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <div class="section-label">02 — Architecture</div>
+        <div class="arch-title">System Overview</div>
+
+        <div class="carousel-wrap" id="carousel">
+          <div class="slides" id="slides">
+            <div class="slide">
+              <img
+                src="./assets/dashboard/Page-01.jpg"
+                alt="Architecture Diagram 1"
+              />
+              <div class="slide-overlay">End-to-End Pipeline Architecture</div>
+              <div class="slide-num">01 / 03</div>
+            </div>
+            <div class="slide">
+              <img
+                src="./assets/dashboard/Page-02.png"
+                alt="Architecture Diagram 2"
+              />
+              <div class="slide-overlay">Databricks Workflow Design</div>
+              <div class="slide-num">02 / 03</div>
+            </div>
+            <div class="slide">
+              <img
+                src="./assets/dashboard/Page-03.png"
+                alt="Architecture Diagram 3"
+              />
+              <div class="slide-overlay">Customised Success Email</div>
+              <div class="slide-num">03 / 03</div>
+            </div>
+          </div>
+          <button class="carousel-btn prev" id="prevBtn">&#8592;</button>
+          <button class="carousel-btn next" id="nextBtn">&#8594;</button>
+          <div class="dots">
+            <div class="dot active" data-i="0"></div>
+            <div class="dot" data-i="1"></div>
+            <div class="dot" data-i="2"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <div class="section-label">03 — Lakehouse Architecture</div>
+        <div class="section-h">Bronze · Silver · Gold</div>
+        <div class="tiers">
+          <div class="tier tier-bronze">
+            <div class="tier-badge">Bronze</div>
+            <div class="tier-desc">
+              Raw JSON ingestion from SFCC REST APIs, stored as-is in ADLS Gen2
+              Archive
+            </div>
+          </div>
+          <div class="tier tier-silver">
+            <div class="tier-badge">Silver</div>
+            <div class="tier-desc">
+              Nested JSON flattening, schema normalization, incremental
+              watermark loads
+            </div>
+          </div>
+          <div class="tier tier-gold">
+            <div class="tier-badge">Gold</div>
+            <div class="tier-desc">
+              Dimensional models (fact & dim tables) optimized for BI &
+              reporting
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <div class="section-label">04 — Pipeline Highlights</div>
+        <div class="section-h">What's Under the Hood</div>
+        <div class="highlights-grid">
+          <div class="highlight-item">
+            <span class="highlight-icon">⚡</span>
+            <span
+              >Incremental data extraction from SFCC REST APIs — Customers,
+              Orders, Products</span
+            >
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-icon">🗄</span>
+            <span
+              >Raw JSON ingestion (Bronze) with durable storage in ADLS Gen2
+              Archive</span
+            >
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-icon">🔄</span>
+            <span
+              >Nested JSON flattening and schema normalization using Databricks
+              notebooks</span
+            >
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-icon">📍</span>
+            <span
+              >Incremental loads using watermark strategy to ensure no duplicate
+              processing</span
+            >
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-icon">📐</span>
+            <span
+              >Dimensional modeling — fact & dimension tables for analytics
+              consumption</span
+            >
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-icon">📊</span>
+            <span
+              >Gold-layer analytics datasets optimized for BI tools & executive
+              reporting</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <div class="section-label">05 — Software Toolkits</div>
+        <div class="section-h">Built With</div>
+        <div class="toolkit-grid">
+          <a
+            href="https://www.salesforce.com/commerce/"
+            target="_blank"
+            class="toolkit-card"
+          >
+            <img
+              src="./assets/icon/Salesforce.png"
+              alt="Salesforce"
+              height="36"
+              style="object-fit: contain"
+            />
+            <span class="toolkit-name">SFCC</span>
+          </a>
+          <a
+            href="https://portal.azure.com/"
+            target="_blank"
+            class="toolkit-card"
+          >
+            <img
+              src="./assets/icon/Azure-key-vaults.svg"
+              alt="Azure Vaults"
+              height="36"
+              style="object-fit: contain"
+            />
+            <span class="toolkit-name">Key-Vault</span>
+          </a>
+          <a
+            href="https://portal.azure.com/"
+            target="_blank"
+            class="toolkit-card"
+          >
+            <img
+              src="./assets/icon/Azure-datalake.png"
+              alt="Azure ADLS"
+              height="36"
+              style="object-fit: contain"
+            />
+            <span class="toolkit-name">ADLS Gen2</span>
+          </a>
+          <a
+            href="https://www.databricks.com/"
+            target="_blank"
+            class="toolkit-card"
+          >
+            <img
+              src="./assets/icon/Databricks.png"
+              alt="Databricks"
+              height="36"
+              style="object-fit: contain"
+            />
+            <span class="toolkit-name">Databricks</span>
+          </a>
+        </div>
+      </section>
+
+      <footer class="reveal">
+        <div class="footer">
+          <div>
+            <div class="connect-label">Let's Connect</div>
+            <div class="social-links">
+              <a
+                href="https://linkedin.com/in/jharajnish"
+                target="_blank"
+                class="social-link"
+              >
+                <img
+                  src="./assets/icon/LinkedIn.svg"
+                  height="14"
+                  width="14"
+                  alt=""
+                />
+                LinkedIn
+              </a>
+              <a
+                href="https://github.com/jha-rajnish"
+                target="_blank"
+                class="social-link"
+              >
+                <img
+                  src="./assets/icon/GitHub.svg"
+                  height="14"
+                  width="14"
+                  alt=""
+                />
+                GitHub
+              </a>
+              <a
+                href="https://instagram.com/rajnish_diaries"
+                target="_blank"
+                class="social-link"
+              >
+                <img
+                  src="./assets/icon/Instagram.svg"
+                  height="14"
+                  width="14"
+                  alt=""
+                />
+                Instagram
+              </a>
+            </div>
+          </div>
+          <div class="email-block">
+            <div class="email-label">✉ Reach me</div>
+            <a href="mailto:jharajnish@outlook.in" class="email-link"
+              >jharajnish@outlook.in</a
+            >
+          </div>
+          <div class="copyright">
+            © Rajnish Jha, India. All Rights Reserved.
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script src="./js/scripts.js"></script>
+  </body>
+</html>
